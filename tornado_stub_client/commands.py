@@ -1,6 +1,6 @@
 # python 3 has different package names
-try: from cStringIO import StringIO
-except ImportError: from io import StringIO
+try: from cStringIO import StringIO as BytesIO
+except ImportError: from io import BytesIO
 
 import json
 import functools
@@ -20,11 +20,11 @@ class stub(object):
         just before returning to the user
         """
         if not body and body_json:
-            body = json.dumps(body_json)
+            body = json.dumps(body_json).encode()
         if not body:
-            body = ''
+            body = b''
         self.response_partial = functools.partial(HTTPResponse,
-                code=code, buffer=StringIO(body))
+                code=code, buffer=BytesIO(body))
         RequestCollection.add(self.request, self.response_partial)
         return self
 
