@@ -41,7 +41,7 @@ class CommandsTest(TestCase):
         st = stub("/hello").and_return(body_json={'name': 'somebody'})
         resp_partial = RequestCollection.find(st.request)
         resp = resp_partial(st.request)
-        self.assertEqual(json.loads(resp.body).get('name'), 'somebody')
+        self.assertEqual(json.loads(resp.body.decode()).get('name'), 'somebody')
 
     def test_no_body(self):
         st = stub("/hello").and_return(body=None)
